@@ -1,0 +1,17 @@
+# Perfil dedicado del contenedor Hermes. La lista explícita impide que el API server
+# herede el conjunto completo de herramientas personales de Hermes.
+platform_toolsets:
+  api_server:
+    - web
+agent:
+  disabled_toolsets:
+    - terminal
+    - file
+    - memory
+    - skills
+    - cron
+    - delegation
+    - browser
+    - computer_use
+context:
+  engine: compressor

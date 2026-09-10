@@ -428,7 +428,7 @@ seed_one() {
     fi
 }
 seed_one ".env" ".env.example"
-seed_one "config.yaml" "cli-config.yaml.example"
+seed_one "config.yaml" "docker/worki-cloud-config.yaml"
 seed_one "SOUL.md" "docker/SOUL.md"
 
 # --- Ensure a gateway api_server key exists (loopback control plane) ---
