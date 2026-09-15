@@ -429,6 +429,15 @@ seed_one() {
 }
 seed_one ".env" ".env.example"
 seed_one "config.yaml" "docker/worki-cloud-config.yaml"
+# Worki Cloud: el perfil restringido se gestiona desde este repositorio. Se reaplica en cada
+# arranque para que los cambios lleguen a volúmenes existentes (seed_one solo copia la primera vez).
+# Antes guarda config.yaml.bak; si algo falla, avisa y conserva la configuración actual.
+if [ -f "$INSTALL_DIR/docker/worki-cloud-config.yaml" ] && [ -f "$HERMES_HOME/config.yaml" ]     && ! refuse_symlinked_path "worki config sync" "$HERMES_HOME/config.yaml"; then
+    if ! cmp -s "$INSTALL_DIR/docker/worki-cloud-config.yaml" "$HERMES_HOME/config.yaml" 2>/dev/null; then
+        as_hermes cp "$HERMES_HOME/config.yaml" "$HERMES_HOME/config.yaml.bak" 2>/dev/null || true
+        as_hermes cp "$INSTALL_DIR/docker/worki-cloud-config.yaml" "$HERMES_HOME/config.yaml"             || echo "[stage2] Warning: no se pudo aplicar worki-cloud-config.yaml — se conserva la configuración actual"
+    fi
+fi
 seed_one "SOUL.md" "docker/SOUL.md"
 
 # --- Ensure a gateway api_server key exists (loopback control plane) ---

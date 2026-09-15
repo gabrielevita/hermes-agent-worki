@@ -15,3 +15,12 @@ agent:
     - computer_use
 context:
   engine: compressor
+# Control de consumo de tokens (Worki Cloud): cada página leída por la búsqueda web entra al
+# contexto con 6.000 caracteres como máximo (Hermes trae 15.000) y la conversación se resume al
+# pasar de 40.000 tokens, conservando los últimos 10 mensajes.
+web:
+  extract_char_limit: 6000
+compression:
+  enabled: true
+  threshold_tokens: 40000
+  protect_last_n: 10
