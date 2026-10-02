@@ -13,6 +13,13 @@ agent:
     - delegation
     - browser
     - computer_use
+  # Razonamiento: GLM 4.5+ piensa por defecto y Hermes respeta ese ajuste del modelo. Medido en
+  # producción: analizar un CSV de 200 filas gastaba 9.791 tokens de salida y 124 s solo en pensar.
+  # Worki Cloud ya calcula las tablas en el servidor, así que el agente no necesita razonar para acertar.
+  reasoning_overrides:
+    glm-5.3-flash: low
+    glm-5.3-flashx: low
+    glm-4.7-flash: low
 context:
   engine: compressor
 # Control de consumo de tokens (Worki Cloud): cada página leída por la búsqueda web entra al
